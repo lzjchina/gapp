@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './store.js';
+import Login from './Login/Login';
 import {
   addToCart,
   updateCart,
@@ -27,6 +28,7 @@ const App = <h1>Redux Shopping Cart</h1>;
 ReactDOM.render(
   <Provider store={store}>
     { App }
+    <Login/>
   </Provider> ,
   document.getElementById('root')
 );
