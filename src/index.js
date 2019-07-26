@@ -8,7 +8,7 @@ import {
   addToCart,
   updateCart,
   deleteFromCart
-} from './actions/cart-actions';
+} from './store/actions/cart-actions';
 
 console.log("initial state: ", store.getState());
 
