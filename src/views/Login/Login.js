@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Button } from 'antd';
 import http from 'axios';
+import './Login.less';
 
 export default class Login extends Component {
     constructor(){
@@ -12,9 +12,12 @@ export default class Login extends Component {
     }
     render() {
         return (
-            <div>
-                Login
-                <Button type="primary">Login</Button>
+            <div className="login">
+                <main className="login-box">
+                    <div></div>
+                    <div></div>
+                </main>
+                <footer></footer>
             </div>
         )
     }
