@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import store from './store.js';
-import Login from './Login/Login';
+import store from './store/store.js';
+import Router from './Router';
+import './index.css';
 import {
   addToCart,
   updateCart,
@@ -23,12 +24,10 @@ store.dispatch(deleteFromCart('Coffee 500gm'));
 
 unsubscribe();
 
-const App = <h1>Redux Shopping Cart</h1>;
 
 ReactDOM.render(
   <Provider store={store}>
-    { App }
-    <Login/>
-  </Provider> ,
+    <Router />
+  </Provider>,
   document.getElementById('root')
 );
