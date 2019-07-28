@@ -1,10 +1,13 @@
-import { createStore } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+// import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from './reducers';
+const initialState = {};
+const middleware = [thunk];
 
-const composeEnhancers = composeWithDevTools({
+// const composeEnhancers = composeWithDevTools({
   // Specify name here, actionsBlacklist, actionsCreators and other options if needed
-});
-let store = createStore(rootReducer,composeEnhancers());
+// });
+const store = createStore(rootReducer, initialState, applyMiddleware(...middleware));
 
 export default store;

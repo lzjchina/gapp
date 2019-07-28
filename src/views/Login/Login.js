@@ -14,8 +14,15 @@ export default class Login extends Component {
         return (
             <div className="login">
                 <main className="login-box">
-                    <div></div>
-                    <div></div>
+                    <div className="login-box-info">
+                        <h1>欢迎！</h1>
+                        <h1>多媒体信息发布管理系统</h1>
+                    </div>
+                    <div>
+                        <h2 className="form-signin-heading">
+                            <div className="logo"></div>
+                        </h2>
+                    </div>
                 </main>
                 <footer></footer>
             </div>
