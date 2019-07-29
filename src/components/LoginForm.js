@@ -3,7 +3,7 @@ import { Form, Icon, Input, Button } from 'antd';
 import '../views/Login/Login.less';
 import http from 'axios';
 import CryptoJS from 'crypto-js';
-import '../untils/verify.js';
+// import '../untils/verify.js';
 
 class LoginForm extends Component {
     constructor() {
@@ -14,17 +14,17 @@ class LoginForm extends Component {
         this.keytoken = CryptoJS.enc.Utf8.parse('GIADAValidToken?+GIADAValidToken')
     }
     // 验证码
-    verifyCode(){
-        var verifyCode = new GVerify("v_container");
-        document.getElementById("my_button").onclick = function () {
-            var res = verifyCode.validate(document.getElementById("code_input").value);
-            if (res) {
-                alert("验证正确");
-            } else {
-                alert("验证码错误");
-            }
-        }
-    }
+    // verifyCode(){
+    //     var verifyCode = new GVerify("v_container");
+    //     document.getElementById("my_button").onclick = function () {
+    //         var res = verifyCode.validate(document.getElementById("code_input").value);
+    //         if (res) {
+    //             alert("验证正确");
+    //         } else {
+    //             alert("验证码错误");
+    //         }
+    //     }
+    // }
     Encrypt(word) {
         var srcs = CryptoJS.enc.Utf8.parse(word);
         var encrypted = CryptoJS.AES.encrypt(srcs, this.key, { iv: this.iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
