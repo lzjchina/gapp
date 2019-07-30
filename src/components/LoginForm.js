@@ -1,30 +1,37 @@
 import React, { Component } from 'react'
-import { Form, Icon, Input, Button } from 'antd';
+import { Form, Icon, Input, Button, message } from 'antd';
 import '../views/Login/Login.less';
 import http from 'axios';
 import CryptoJS from 'crypto-js';
-// import '../untils/verify.js';
+import verify from '../untils/verify.js';
+import { injectIntl } from 'react-intl';
 
 class LoginForm extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.key = CryptoJS.enc.Utf8.parse("GIADASytemMedia?+GIADASytemMedia")
         this.iv = CryptoJS.enc.Utf8.parse('giada123456giada')
         this.ivtoken = CryptoJS.enc.Utf8.parse('giada123456giada')
         this.keytoken = CryptoJS.enc.Utf8.parse('GIADAValidToken?+GIADAValidToken')
+        this.state = {
+            verifyValue: '',
+            verifyIsSuccess: false,
+            verifyCode: ''
+        }
+    }
+    componentDidMount() {
+        this.verifyCode()
+    }
+    handleChange = event => {
+        this.setState({ verifyValue: event.target.value });
     }
     // 验证码
-    // verifyCode(){
-    //     var verifyCode = new GVerify("v_container");
-    //     document.getElementById("my_button").onclick = function () {
-    //         var res = verifyCode.validate(document.getElementById("code_input").value);
-    //         if (res) {
-    //             alert("验证正确");
-    //         } else {
-    //             alert("验证码错误");
-    //         }
-    //     }
-    // }
+    verifyCode() {
+        const verifyCode = new verify("v_container");
+        this.setState({
+            verifyCode: verifyCode
+        });
+    }
     Encrypt(word) {
         var srcs = CryptoJS.enc.Utf8.parse(word);
         var encrypted = CryptoJS.AES.encrypt(srcs, this.key, { iv: this.iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
@@ -51,21 +58,28 @@ class LoginForm extends Component {
     }
     handleSubmit = e => {
         e.preventDefault();
+        const { intl } = this.props;
+        let validation = intl.formatMessage({ id: 'validation' });
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                const username = this.props.form.getFieldValue("username");
-                const password = this.Encrypt(this.props.form.getFieldValue("password"));
-                const reqData = `/api/MMessage/GetRequestData?op=login&content={"login_name":"${username}","password":"${password}"}`;
-                // console.log(reqData)
-                http.get(reqData).then(res => {
-                    const data = JSON.parse(res.data);
-                    let j_data;
-                    if (data.status === 'success'){
-                        j_data = this.DecryptTK(data.data);
-                        j_data = JSON.parse(j_data);
-                        console.log(j_data)
-                    }
-                })
+                let verifyStatus = this.state.verifyCode.validate(this.state.verifyValue);
+                if (this.state.verifyValue === '' || !verifyStatus) {
+                    message.error(validation);
+                } else {
+                    const username = this.props.form.getFieldValue("username");
+                    const password = this.Encrypt(this.props.form.getFieldValue("password"));
+                    const reqData = `/api/MMessage/GetRequestData?op=login&content={"login_name":"${username}","password":"${password}"}`;
+                    // console.log(reqData)
+                    http.get(reqData).then(res => {
+                        const data = JSON.parse(res.data);
+                        let j_data;
+                        if (data.status === 'success') {
+                            j_data = this.DecryptTK(data.data);
+                            j_data = JSON.parse(j_data);
+                            console.log(j_data)
+                        }
+                    })
+                }
             }
         });
     };
@@ -97,7 +111,7 @@ class LoginForm extends Component {
                         )}
                     </Form.Item>
                     <Form.Item className="VerificationBox">
-                        <Input placeholder="Basic usage" />
+                        <Input value={this.state.verifyValue} onChange={this.handleChange} placeholder="验证码" />
                         <div className="verify-code" id="v_container"></div>
                     </Form.Item>
                     <Form.Item>
@@ -109,4 +123,4 @@ class LoginForm extends Component {
     }
 }
 const LoginFormBox = Form.create()(LoginForm);
-export default LoginFormBox;
+export default injectIntl(LoginFormBox);
