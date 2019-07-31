@@ -4,25 +4,47 @@ import LoginForm from '../../components/LoginForm';
 import { connect } from 'react-redux';
 import { fetchPosts } from '../../store/actions/postAction';
 import { FormattedMessage, injectIntl } from 'react-intl';
-// import store from '../../store/store';
+// import {  injectIntl } from 'react-intl';
+import store from '../../store/store';
+import { addToCart, updateCart, deleteFromCart } from '../../store/actions/cart-actions';
 
 class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            language: 'zh'
         }
     }
     componentDidMount() {
-        this.props.fetchPosts();
         this.test();
-        // console.log(store.getState().shoppingCart)
-        // http.get('/api/MMessage/GetRequestData?op=getdevice&content=effd9698-01ab-49c8-9399-5f4ac7fd8d1c&user_id=effd9698-01ab-49c8-9399-5f4ac7fd8d1c&token=988F453199D88CAC05F8A048AEFA68D204943173719BA28262559372AFB83F28BC06C9C67EBF052AFC11D253F2E46FBE').then(res => console.log(res))
+        
     }
 
     test = () => {
-        const { intl } = this.props;
-        let tmp = intl.formatMessage({ id: 'hello' });
-        console.log(tmp)
+        // const { intl } = this.props;
+        // let tmp = intl.formatMessage({ id: 'hello' });
+        // console.log(tmp)
+        this.props.fetchPosts();
+        console.log(this.props.posts)
+        store.dispatch(addToCart('Coffee 500gm', 1, 250));
+        store.dispatch(addToCart('Flour 1kg', 2, 110));
+        store.dispatch(addToCart('Juice 2L', 1, 250));
+        store.dispatch(updateCart('Flour 1kg', 5, 110));
+        store.dispatch(deleteFromCart('Coffee 500gm'));
+        console.log(store.getState())
+        console.log(this.props)
+    }
+
+    selectZh = () => {
+        this.setState({
+            language: 'zh'
+        });
+    }
+
+    selectEn = () => {
+        this.setState({
+            language: 'en'
+        });
     }
 
     render() {
@@ -31,15 +53,19 @@ class Login extends Component {
             <div className="login">
                 <main className="login-box">
                     <div className="login-box-info">
-                        <h1>欢迎！</h1>
-                        <h1>多媒体信息发布管理系统</h1>
+                        <h1><FormattedMessage id="login_welcome" /></h1>
+                        <h1><FormattedMessage id="login_systemName" /></h1>
                     </div>
                     <div className="login-box-form">
                         <h2 className="form-signin-heading">
                             <div className="logo"></div>
                         </h2>
                         <LoginForm />
-                        <div><FormattedMessage id="hello" /></div>
+                        <div className="languageBox">
+                            <span onClick={this.selectZh} className={this.state.language === 'zh' ? 'languageActive': 'languageName'}>简体中文</span>
+                            <span className="Language_line">|</span>
+                            <span onClick={this.selectEn} className={this.state.language === 'en' ? 'languageActive' : 'languageName'}>英文</span>
+                        </div>
                     </div>
                 </main>
                 <footer></footer>
@@ -49,7 +75,8 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => ({
-    posts: state.posts.items
+    posts: state.posts.items,
+    cart: state.shoppingCart
 })
 
-export default connect(mapStateToProps, { fetchPosts })(injectIntl(Login));
+export default connect(mapStateToProps, { fetchPosts, addToCart })(injectIntl(Login));

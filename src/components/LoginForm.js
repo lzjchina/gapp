@@ -4,7 +4,7 @@ import '../views/Login/Login.less';
 import http from 'axios';
 import CryptoJS from 'crypto-js';
 import verify from '../untils/verify.js';
-import { injectIntl } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 
 class LoginForm extends Component {
     constructor(props) {
@@ -59,7 +59,7 @@ class LoginForm extends Component {
     handleSubmit = e => {
         e.preventDefault();
         const { intl } = this.props;
-        let validation = intl.formatMessage({ id: 'validation' });
+        let validation = intl.formatMessage({ id: 'login_validation' });
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 let verifyStatus = this.state.verifyCode.validate(this.state.verifyValue);
@@ -115,7 +115,7 @@ class LoginForm extends Component {
                         <div className="verify-code" id="v_container"></div>
                     </Form.Item>
                     <Form.Item>
-                        <Button type="primary" htmlType="submit" className="login-form-button">Log in</Button>
+                        <Button type="primary" htmlType="submit" className="login-form-button"><FormattedMessage id="login_loginBtn"/></Button>
                     </Form.Item>
                 </Form>
             </div>

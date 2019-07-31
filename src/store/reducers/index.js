@@ -1,6 +1,4 @@
-import {
-  combineReducers
-} from 'redux';
+import { combineReducers } from 'redux';
 import productsReducer from './products-reducer';
 import cartReducer from './cart-reducer';
 import postReducer from './postReducer';

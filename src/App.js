@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import store from './store/store.js';
+// import { Provider } from 'react-redux';
+// import store from './store/store.js';
 import Router from './Router';
 import './index.css';
 
@@ -9,19 +9,16 @@ import en from 'react-intl/locale-data/en';
 import zh from 'react-intl/locale-data/zh';
 import zh_CN from "./locales/zh-CN";     // import defined messages in Chinese
 import en_US from "./locales/en-US";     // import defined messages in English
+// import { addToCart, updateCart, deleteFromCart } from './store/actions/cart-actions';
 addLocaleData([...en, ...zh]);  // 引入多语言环境的数据
 
 
-// import {
-//   addToCart,
-//   updateCart,
-//   deleteFromCart
-// } from './store/actions/cart-actions';
+
 
 // console.log("initial state: ", store.getState());
 
 // let unsubscribe = store.subscribe(() =>
-//   console.log(store.getState())
+//     console.log(store.getState())
 // );
 
 // store.dispatch(addToCart('Coffee 500gm', 1, 250));
@@ -33,10 +30,10 @@ addLocaleData([...en, ...zh]);  // 引入多语言环境的数据
 // unsubscribe();
 
 class App extends Component {
-    constructor(props){
+    constructor(props) {
         super();
         this.state = {
-            lang: 'en'
+            lang: 'zh'
         }
     }
     render() {
@@ -46,11 +43,10 @@ class App extends Component {
         return (
             <IntlProvider locale={this.state.lang} messages={messages[this.state.lang]}>
                 <div>
-                    <Provider store={store}>
-                        <Router />
-                    </Provider>
+                    <Router />
                 </div>
             </IntlProvider>
+
         )
     }
 }
