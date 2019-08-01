@@ -12,7 +12,7 @@ export default function (state = initialState, action) {
             {
                 return {
                     ...state,
-                    items: [...state.items, action.payload]
+                    items: action.payload
                 }
             }
 

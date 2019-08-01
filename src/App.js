@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 // import store from './store/store.js';
 import Router from './Router';
 import './index.css';
+import { connect } from 'react-redux';
+import { change_language } from './store/actions/language_action';
 
 import { addLocaleData, IntlProvider } from 'react-intl'; /* react-intl imports */
 import en from 'react-intl/locale-data/en';
@@ -41,13 +43,15 @@ class App extends Component {
         messages['en'] = en_US;
         messages['zh'] = zh_CN;
         return (
-            <IntlProvider locale={this.state.lang} messages={messages[this.state.lang]}>
-                <div>
-                    <Router />
-                </div>
+            <IntlProvider locale={this.props.language} messages={messages[this.props.language]}>
+                <Router />
             </IntlProvider>
-
         )
     }
 }
-export default App;
+// export default App;
+const mapStateToProps = state => ({
+    language: state.language.name
+})
+
+export default connect(mapStateToProps, { change_language })(App);

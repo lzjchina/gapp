@@ -3,10 +3,9 @@ import './Login.less';
 import LoginForm from '../../components/LoginForm';
 import { connect } from 'react-redux';
 import { fetchPosts } from '../../store/actions/postAction';
+import { change_language } from '../../store/actions/language_action';
 import { FormattedMessage, injectIntl } from 'react-intl';
-// import {  injectIntl } from 'react-intl';
-import store from '../../store/store';
-import { addToCart, updateCart, deleteFromCart } from '../../store/actions/cart-actions';
+import { Link } from 'react-router-dom';
 
 class Login extends Component {
     constructor(props) {
@@ -16,8 +15,10 @@ class Login extends Component {
         }
     }
     componentDidMount() {
-        this.test();
-        
+        // this.test();
+    }
+    componentDidUpdate() {
+        // console.log(this.props.posts)
     }
 
     test = () => {
@@ -25,26 +26,22 @@ class Login extends Component {
         // let tmp = intl.formatMessage({ id: 'hello' });
         // console.log(tmp)
         this.props.fetchPosts();
-        console.log(this.props.posts)
-        store.dispatch(addToCart('Coffee 500gm', 1, 250));
-        store.dispatch(addToCart('Flour 1kg', 2, 110));
-        store.dispatch(addToCart('Juice 2L', 1, 250));
-        store.dispatch(updateCart('Flour 1kg', 5, 110));
-        store.dispatch(deleteFromCart('Coffee 500gm'));
-        console.log(store.getState())
-        console.log(this.props)
     }
 
-    selectZh = () => {
+    selectZh = async () => {
         this.setState({
             language: 'zh'
         });
+        await this.props.change_language('zh')
+        // console.log(this.props.language)
+        // console.log(this.props.posts)
     }
 
-    selectEn = () => {
+    selectEn = async () => {
         this.setState({
             language: 'en'
         });
+        await this.props.change_language('en')
     }
 
     render() {
@@ -62,12 +59,18 @@ class Login extends Component {
                         </h2>
                         <LoginForm />
                         <div className="languageBox">
-                            <span onClick={this.selectZh} className={this.state.language === 'zh' ? 'languageActive': 'languageName'}>简体中文</span>
+                            <span onClick={this.selectZh} className={this.props.language === 'zh' ? 'languageActive' : 'languageName'}>简体中文</span>
                             <span className="Language_line">|</span>
-                            <span onClick={this.selectEn} className={this.state.language === 'en' ? 'languageActive' : 'languageName'}>英文</span>
+                            <span onClick={this.selectEn} className={this.props.language === 'en' ? 'languageActive' : 'languageName'}>英文</span>
                         </div>
                     </div>
                 </main>
+                <Link to="/home">2312    </Link>
+                {/* {
+                    this.props.posts.map(item => {
+                        return (<p key={item.id}>{item.title}</p>)
+                    })
+                } */}
                 <footer></footer>
             </div>
         )
@@ -76,7 +79,7 @@ class Login extends Component {
 
 const mapStateToProps = state => ({
     posts: state.posts.items,
-    cart: state.shoppingCart
+    language: state.language.name
 })
 
-export default connect(mapStateToProps, { fetchPosts, addToCart })(injectIntl(Login));
+export default connect(mapStateToProps, { fetchPosts, change_language })(injectIntl(Login));
