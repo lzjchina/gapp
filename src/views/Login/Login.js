@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import './Login.less';
 import LoginForm from '../../components/LoginForm';
+// import Hello from '../../components/Hello';
 import { connect } from 'react-redux';
 import { fetchPosts } from '../../store/actions/postAction';
 import { change_language } from '../../store/actions/language_action';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 
 class Login extends Component {
     constructor(props) {
@@ -25,7 +28,9 @@ class Login extends Component {
         // const { intl } = this.props;
         // let tmp = intl.formatMessage({ id: 'hello' });
         // console.log(tmp)
-        this.props.fetchPosts();
+        // this.props.fetchPosts();
+        console.log(this.props)
+        // this.props.history.push('/home');
     }
 
     selectZh = async () => {
@@ -65,21 +70,19 @@ class Login extends Component {
                         </div>
                     </div>
                 </main>
-                <Link to="/home">2312    </Link>
-                {/* {
-                    this.props.posts.map(item => {
-                        return (<p key={item.id}>{item.title}</p>)
-                    })
-                } */}
                 <footer></footer>
             </div>
         )
     }
 }
 
+Login.propTypes = {
+    posts: PropTypes.array.isRequired,
+    language: PropTypes.string.isRequired
+}
 const mapStateToProps = state => ({
     posts: state.posts.items,
     language: state.language.name
 })
 
-export default connect(mapStateToProps, { fetchPosts, change_language })(injectIntl(Login));
+export default withRouter(connect(mapStateToProps, { fetchPosts, change_language })(injectIntl(Login)));

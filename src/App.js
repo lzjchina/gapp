@@ -33,7 +33,7 @@ addLocaleData([...en, ...zh]);  // 引入多语言环境的数据
 
 class App extends Component {
     constructor(props) {
-        super();
+        super(props);
         this.state = {
             lang: 'zh'
         }
