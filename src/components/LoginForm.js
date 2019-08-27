@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { Form, Icon, Input, Button, message, Spin } from 'antd';
 import '../views/Login/Login.less';
-import http from 'axios';
+// import http from 'axios';
 import CryptoJS from 'crypto-js';
 import verify from '../untils/verify.js';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { set_login_status } from '../store/actions/login_state';
 import { withRouter } from 'react-router-dom';
+import { get } from '../fetch/fetch';
 
 
 class LoginForm extends Component {
@@ -82,26 +83,50 @@ class LoginForm extends Component {
                     const username = this.props.form.getFieldValue("username");
                     const password = this.Encrypt(this.props.form.getFieldValue("password"));
                     const reqData = `/api/MMessage/GetRequestData?op=login&content={"login_name":"${username}","password":"${password}"}`;
-                    http.get(reqData).then(res => {
-                            const data = JSON.parse(res.data);
-                            let j_data;
-                            if (data.status === 'success') {
-                                this.setState({
-                                    loading: false
-                                });
-                                j_data = this.DecryptTK(data.data);
-                                j_data = JSON.parse(j_data);
-                                // console.log(j_data)
-                                this.props.set_login_status(j_data);
+                    // http.get(reqData).then(res => {
+                    //     const data = JSON.parse(res.data);
+                    //     let j_data;
+                    //     if (data.status === 'success') {
+                    //         this.setState({
+                    //             loading: false
+                    //         });
+                    //         j_data = this.DecryptTK(data.data);
+                    //         j_data = JSON.parse(j_data);
+                    //         // console.log(j_data)
+                    //         this.props.set_login_status(j_data);
 
-                                this.props.history.push('/home');
-                            }
-                        })
-                        .catch(err => {
+                    //         this.props.history.push('/home');
+                    //     }
+                    // })
+                    // .catch(err => {
+                    //     this.setState({
+                    //         loading: false
+                    //     });
+                    // })
+
+                    get(reqData).then(res => res.json()).then(json => {
+                        const data = JSON.parse(json);
+                        let j_data;
+                        if (data.status === 'success') {
                             this.setState({
                                 loading: false
                             });
-                        })
+                            j_data = this.DecryptTK(data.data);
+                            j_data = JSON.parse(j_data);
+                            this.props.set_login_status(j_data);
+                            this.props.history.push('/home');
+                        } else {
+                            this.setState({
+                                loading: false
+                            });
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        this.setState({
+                            loading: false
+                        });
+                    })
                 }
             }
         });

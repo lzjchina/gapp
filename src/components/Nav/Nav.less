@@ -1,0 +1,53 @@
+.Nav_box {
+    padding: 0 .25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .Nav_left {
+        display: flex;
+        align-items: center;
+
+        .logo {
+            width: 1.2rem;
+            height: .26rem;
+            background: url('../../images/logo.png') center/100% 100% no-repeat;
+            margin-right: 150px;
+        }
+
+        .ant-menu {
+            background: rgba(222, 235, 254, 1);
+        }
+
+        .ant-menu-horizontal>.ant-menu-item:hover,
+        .ant-menu-horizontal>.ant-menu-submenu:hover,
+        .ant-menu-horizontal>.ant-menu-item-active,
+        .ant-menu-horizontal>.ant-menu-submenu-active,
+        .ant-menu-horizontal>.ant-menu-item-open,
+        .ant-menu-horizontal>.ant-menu-submenu-open,
+        .ant-menu-horizontal>.ant-menu-item-selected,
+        .ant-menu-horizontal>.ant-menu-submenu-selected {
+            background: #fff;
+        }
+
+
+        .ant-menu-horizontal {
+            line-height: .6rem;
+
+            .ant-menu-submenu-horizontal>.ant-menu-submenu-title>.submenu-title-wrapper,
+            .ant-menu-item>a {
+                color: #333;
+                font-size: .18rem;
+                font-weight: 500;
+            }
+        }
+    }
+
+    .Avatar_box {
+        position: relative;
+
+        .ant-avatar {
+            margin-right: .1rem;
+        }
+    }
+}
