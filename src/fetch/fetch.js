@@ -4,7 +4,7 @@ import 'es6-promise';
 export function get(url) {
     var result = fetch(url, {
         method: 'GET',
-        // mode: 'cors',
+        mode: 'cors',
         credentials: 'include',
         headers: {
             'Accept': 'application/json,text/plain,*/*'
@@ -29,7 +29,7 @@ function obj2params(obj){
 export function post(url,params) {
     var result = fetch(url, {
         method: 'POST',
-        // mode: 'cors',
+        mode: 'cors',
         credentials: 'include',
         headers: {
             'Accept': 'application/json,text/plain,*/*',

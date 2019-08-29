@@ -28,11 +28,19 @@
         .ant-menu-horizontal>.ant-menu-item-selected,
         .ant-menu-horizontal>.ant-menu-submenu-selected {
             background: #fff;
+            border-bottom: .02rem solid #003586;
         }
 
-
-        .ant-menu-horizontal {
+        .ant-menu-submenu,
+        .ant-menu-item {
+            height: .6rem;
             line-height: .6rem;
+            top: .01rem;
+        }
+        .ant-menu-horizontal {
+            border: 0;
+            height: .6rem;
+            line-height: 0.6rem;
 
             .ant-menu-submenu-horizontal>.ant-menu-submenu-title>.submenu-title-wrapper,
             .ant-menu-item>a {
@@ -45,6 +53,7 @@
 
     .Avatar_box {
         position: relative;
+        cursor: pointer;
 
         .ant-avatar {
             margin-right: .1rem;

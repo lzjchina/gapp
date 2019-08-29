@@ -31,7 +31,7 @@ class Nav extends Component {
           children: [
             {
               id: 11,
-              path: '/',
+              path: '/deviceManage',
               name: '设备管理'
             },
             {

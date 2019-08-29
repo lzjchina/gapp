@@ -1,0 +1,171 @@
+.deviceCard-box {
+    padding: 0 0 0 0.2rem;
+    height: calc(100vh - 1.61rem);
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+        width: .05rem;
+        /*滚动条宽度*/
+        height: .05rem;
+        /*滚动条高度*/
+    }
+    
+    /*定义滚动条轨道 内阴影+圆角*/
+    
+    &::-webkit-scrollbar-track {
+        border-radius: .05rem;
+        /*滚动条的背景区域的圆角*/
+        background-color: #fff;
+        /*滚动条的背景颜色*/
+    }
+    
+    /*定义滑块 内阴影+圆角*/
+    
+    &::-webkit-scrollbar-thumb {
+        height: 10px;
+        border-radius: .05rem;
+        /*滚动条的圆角*/
+        background-color: #B6B6B6;
+        /*滚动条的背景颜色*/
+    }
+
+    .deviceCard {
+        width: 3.5rem;
+        min-height: 2.2rem;
+        float: left;
+        margin-right: .21rem;
+        box-shadow: 0px 0.02rem 0.03rem rgba(51, 51, 51, 0.15);
+        border-radius: .06rem;
+        background: #fff;
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 .2rem;
+            line-height: 41px;
+            border-bottom: .01rem solid #d1d1d1;
+
+            .deviceName {
+                width: 1.6rem;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                color: #333;
+                font-size: .18rem;
+            }
+
+            .btn_group {
+                display: flex;
+                align-items: center;
+
+                i {
+                    width: 24px;
+                    height: 24px;
+                    cursor: pointer;
+                    margin-left: .05rem;
+                    background: url('../../images/deviceManageIcon/icon_sprites.png');
+                }
+
+                .btn_edit {
+                    background-position: -0px -76px;
+                }
+
+                .btn_edit:hover {
+                    background-position: -0px -100px;
+                }
+
+                .btn_refresh {
+                    background-position: -0px -172px;
+                }
+
+                .btn_refresh:hover {
+                    background-position: -0px -196px;
+                }
+
+                .btn_delete {
+                    background-position: -0px -28px;
+                }
+
+                .btn_delete:hover {
+                    background-position: -0px -52px;
+                }
+            }
+        }
+
+        .card-content {
+            padding: 0 .2rem;
+
+            .number {
+                display: flex;
+                justify-content: space-around;
+                margin-top: .2rem;
+
+                dl,
+                dd,
+                dt {
+                    text-align: center;
+                }
+
+                dt {
+                    font-size: .24rem;
+                    color: #333;
+                }
+
+                dd {
+                    font-size: .15rem;
+                    color: #999;
+                }
+            }
+
+            .linkStatus_box {
+                margin-top: .17rem;
+                font-size: .16rem;
+                color: #999;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .linkStatus {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    h5 {
+                        font-weight: normal;
+                        width: .9rem;
+                        text-align: right;
+                        font-size: .16rem;
+                        color: #999;
+                    }
+
+                    i {
+                        margin: 0 .1rem;
+                        background: url('../../images/deviceManageIcon/icon_sprites.png');
+                    }
+
+                    .offline {
+                        width: 24px;
+                        height: 24px;
+                        background-position: -0px -148px;
+                    }
+
+                    .online {
+                        width: 28px;
+                        height: 28px;
+                        background-position: -0px -0px;
+                    }
+
+                    .red {
+                        color: red;
+                    }
+
+                    .green {
+                        color: green;
+                    }
+                }
+
+            }
+        }
+    }
+}
