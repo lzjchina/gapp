@@ -3,7 +3,7 @@ import Nav from '../../components/Nav/Nav';
 import DeviceTable from '../../components/DeviceManage/DeviceTable';
 import DeviceCard from '../../components/DeviceManage/DeviceCard';
 import { getUserMsg } from '../../untils/getStore';
-import { Button, Input, Icon } from 'antd';
+import { Button, Input, Icon, message } from 'antd';
 import { get } from '../../fetch/fetch';
 import './DeviceManage.less';
 const { Search } = Input;
@@ -14,22 +14,18 @@ class DeviceManage extends Component {
     super();
     this.state = {
       switchPage: true,
-      testNum: 1,
       DeviceMsg: [],
       allDeviceId: [],
-      refreshdeviceData: []
+      deviceNum: 0,
+      refreshdeviceData: [],
+      selectDeviceId: new Map()
     }
   }
   componentDidMount() {
     this.getDevice();
   }
-  test2 = () => {
-    console.log('test2')
-    let num = this.state.testNum;
-    num++;
-    this.setState({
-      testNum: num
-    })
+  componentDidUpdate() {
+    console.log(this.state.selectDeviceId)
   }
   switchPageState = () => {
     console.log(getUserMsg())
@@ -46,7 +42,8 @@ class DeviceManage extends Component {
       let data = JSON.parse(res);
       if (data.status === "success") {
         this.setState({
-          DeviceMsg: data.data
+          DeviceMsg: data.data,
+          deviceNum: data.data.length
         });
         this.getAllDeviceID();
         this.refreshdevice();
@@ -67,18 +64,34 @@ class DeviceManage extends Component {
     });
   }
   // 刷新
-  refreshdevice() {
-    const reqUrl = `api/MMessage/GetRequestData?op=refreshdevice&content=${this.state.allDeviceId.join(',')},&user_id=${getUserMsg().id}&token=${getUserMsg().token}`;
+  refreshdevice = (id = '') => {
+    let tempId;
+    id === '' ? tempId = this.state.allDeviceId.join(',') : tempId = id;
+    const reqUrl = `api/MMessage/GetRequestData?op=refreshdevice&content=${tempId},&user_id=${getUserMsg().id}&token=${getUserMsg().token}`;
     get(reqUrl).then(res => res.json()).then(res => {
       let resData = JSON.parse(res);
-      if(resData.status === 'success'){
+      if (resData.status === 'success') {
         this.setState({
           refreshdeviceData: resData.data
         });
+        message.success('success');
       }
-      console.log(resData)
+      // console.log(resData)
     }).catch(e => console.log(e))
-   }
+  }
+  // 点击选择设备
+  clickDeviceCard = (id = "") => {
+    if (this.state.selectDeviceId.has(id)) {
+      this.state.selectDeviceId.delete(id);
+      this.setState({
+        selectDeviceId: this.state.selectDeviceId
+      })
+    } else {
+      this.setState({
+        selectDeviceId: this.state.selectDeviceId.set(id, id)
+      })
+    }
+  }
   render() {
     return (
       <div>
@@ -87,7 +100,7 @@ class DeviceManage extends Component {
           <div className="tools_box">
             <div className="btn-group">
               <Button icon="edit">批量编辑</Button>
-              <Button icon="sync">刷新</Button>
+              <Button icon="sync" onClick={() => this.getDevice()}>刷新</Button>
               <Button icon="delete">删除</Button>
             </div>
             <div className="search_box">
@@ -100,10 +113,10 @@ class DeviceManage extends Component {
             </div>
           </div>
           <div className="tips-box">
-            已加载全部设备，共{this.state.testNum}个
+            已加载全部设备，共{this.state.deviceNum}个
           </div>
           {
-            this.state.switchPage ? (<DeviceCard test2={this.test2} DeviceMsg={this.state.DeviceMsg} refreshdeviceData={this.state.refreshdeviceData}/>) : (<DeviceTable DeviceMsg={this.state.DeviceMsg} refreshdeviceData={this.state.refreshdeviceData}/>)
+            this.state.switchPage ? (<DeviceCard DeviceMsg={this.state.DeviceMsg} selectDeviceId={this.state.selectDeviceId} clickDeviceCard={this.clickDeviceCard} refreshdeviceFunc={this.refreshdevice} refreshdeviceData={this.state.refreshdeviceData} />) : (<DeviceTable DeviceMsg={this.state.DeviceMsg} refreshdeviceData={this.state.refreshdeviceData} />)
           }
         </div>
       </div>

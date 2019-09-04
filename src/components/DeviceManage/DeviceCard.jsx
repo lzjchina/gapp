@@ -7,12 +7,12 @@ const DeviceCard = (props) => {
       {
         props.DeviceMsg.map(items => {
           return (
-            <div className="deviceCard" key={items.id} onClick={props.test2}>
+            <div className={props.selectDeviceId.has(items.id) ? 'deviceCard active': 'deviceCard'} key={items.id} onClick={() => props.clickDeviceCard(items.id)}>
               <div className="card-top">
                 <h3 className="deviceName">{items.name}</h3>
                 <div className="btn_group">
                   <i className="btn_edit" title="编辑"></i>
-                  <i className="btn_refresh" title="刷新"></i>
+                  <i className="btn_refresh" title="刷新" onClick={() => props.refreshdeviceFunc(items.id)}></i>
                   <i className="btn_delete" title="删除"></i>
                 </div>
               </div>
@@ -37,9 +37,7 @@ const DeviceCard = (props) => {
                                                               </div>) : null)
                     })
                   }
-                  <div>
-                    1
-                  </div>
+                  <div className="imitate_checkbox"></div>
                 </li>
               </ul>
             </div>
