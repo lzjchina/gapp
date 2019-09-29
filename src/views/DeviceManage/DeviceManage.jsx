@@ -3,7 +3,7 @@ import Nav from '../../components/Nav/Nav';
 import DeviceTable from '../../components/DeviceManage/DeviceTable';
 import DeviceCard from '../../components/DeviceManage/DeviceCard';
 import { getUserMsg } from '../../untils/getStore';
-import { Button, Input, Icon, message } from 'antd';
+import { Button, Input, Icon, message, Checkbox } from 'antd';
 import { get } from '../../fetch/fetch';
 import './DeviceManage.less';
 const { Search } = Input;
@@ -25,7 +25,7 @@ class DeviceManage extends Component {
     this.getDevice();
   }
   componentDidUpdate() {
-    console.log(this.state.selectDeviceId)
+    // console.log(this.state.selectDeviceId)
   }
   switchPageState = () => {
     console.log(getUserMsg())
@@ -64,7 +64,10 @@ class DeviceManage extends Component {
     });
   }
   // 刷新
-  refreshdevice = (id = '') => {
+  refreshdevice = (e, id = '') => {
+    if (e) {
+      e.stopPropagation();
+    }
     let tempId;
     id === '' ? tempId = this.state.allDeviceId.join(',') : tempId = id;
     const reqUrl = `api/MMessage/GetRequestData?op=refreshdevice&content=${tempId},&user_id=${getUserMsg().id}&token=${getUserMsg().token}`;
@@ -92,6 +95,25 @@ class DeviceManage extends Component {
       })
     }
   }
+  // 全选
+  onChange = (e) => {
+    // console.log(e.target.checked)
+    if (e.target.checked) {
+      this.state.selectDeviceId.clear();
+      this.state.allDeviceId.forEach(items => {
+        this.setState({
+          selectDeviceId: this.state.selectDeviceId.set(items, items)
+        })
+      });
+    } else {
+      this.state.allDeviceId.forEach(items => {
+        this.state.selectDeviceId.delete(items);
+        this.setState({
+          selectDeviceId: this.state.selectDeviceId
+        })
+      });
+    }
+  }
   render() {
     return (
       <div>
@@ -113,10 +135,13 @@ class DeviceManage extends Component {
             </div>
           </div>
           <div className="tips-box">
+            {
+              this.state.switchPage ? (<Checkbox onChange={(e) => this.onChange(e)}>全选,</Checkbox>) : null
+            }
             已加载全部设备，共{this.state.deviceNum}个
           </div>
           {
-            this.state.switchPage ? (<DeviceCard DeviceMsg={this.state.DeviceMsg} selectDeviceId={this.state.selectDeviceId} clickDeviceCard={this.clickDeviceCard} refreshdeviceFunc={this.refreshdevice} refreshdeviceData={this.state.refreshdeviceData} />) : (<DeviceTable DeviceMsg={this.state.DeviceMsg} refreshdeviceData={this.state.refreshdeviceData} />)
+            this.state.switchPage ? (<DeviceCard DeviceMsg={this.state.DeviceMsg} selectDeviceId={this.state.selectDeviceId} clickDeviceCard={this.clickDeviceCard} refreshdeviceFunc={this.refreshdevice} refreshdeviceData={this.state.refreshdeviceData} />) : (<DeviceTable DeviceMsg={this.state.DeviceMsg} refreshdeviceData={this.state.refreshdeviceData} refreshdeviceFunc={this.refreshdevice} />)
           }
         </div>
       </div>

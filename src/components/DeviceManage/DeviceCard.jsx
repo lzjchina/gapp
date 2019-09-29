@@ -7,12 +7,12 @@ const DeviceCard = (props) => {
       {
         props.DeviceMsg.map(items => {
           return (
-            <div className={props.selectDeviceId.has(items.id) ? 'deviceCard active': 'deviceCard'} key={items.id} onClick={() => props.clickDeviceCard(items.id)}>
+            <div className={props.selectDeviceId.has(items.id) ? 'deviceCard active' : 'deviceCard'} key={items.id} onClick={() => props.clickDeviceCard(items.id)}>
               <div className="card-top">
                 <h3 className="deviceName">{items.name}</h3>
                 <div className="btn_group">
                   <i className="btn_edit" title="编辑"></i>
-                  <i className="btn_refresh" title="刷新" onClick={() => props.refreshdeviceFunc(items.id)}></i>
+                  <i className="btn_refresh" title="刷新" onClick={(e) => props.refreshdeviceFunc(e, items.id)}></i>
                   <i className="btn_delete" title="删除"></i>
                 </div>
               </div>
@@ -31,10 +31,10 @@ const DeviceCard = (props) => {
                   {
                     props.refreshdeviceData.map(eles => {
                       return ((eles.device_id === items.id) ? (<div className="linkStatus" key={eles.device_id}>
-                                                                <h5>连接状态:</h5>
-                                                                <i className={eles.conn_status === 'Y'? 'online': 'offline'}></i>
-                                                                <span className={eles.conn_status === 'Y'? 'green': 'red'}>{eles.conn_status === 'Y'? 'green': '离线'}</span>
-                                                              </div>) : null)
+                        <h5>连接状态:</h5>
+                        <i className={eles.conn_status === 'Y' ? 'online' : 'offline'}></i>
+                        <span className={eles.conn_status === 'Y' ? 'green' : 'red'}>{eles.conn_status === 'Y' ? 'green' : '离线'}</span>
+                      </div>) : null)
                     })
                   }
                   <div className="imitate_checkbox"></div>

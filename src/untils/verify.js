@@ -73,9 +73,9 @@ class GVerify {
             this.options.code += txt;
             ctx.font = this.randomNum(this.options.height / 2, this.options.height) + 'px SimHei'; //随机生成字体大小
             ctx.fillStyle = this.randomColor(50, 160); //随机生成字体颜色        
-            ctx.shadowOffsetX = this.randomNum(-2, 2);
-            ctx.shadowOffsetY = this.randomNum(-2, 2);
-            ctx.shadowBlur = this.randomNum(-2, 2);
+            ctx.shadowOffsetX = this.randomNum(-1, 1);
+            ctx.shadowOffsetY = this.randomNum(-1, 1);
+            ctx.shadowBlur = this.randomNum(-1, 1);
             ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
             var x = this.options.width / (this.size + 1) * i;
             var y = this.options.height / 2;
@@ -89,7 +89,7 @@ class GVerify {
             ctx.translate(-x, -y);
         }
         /**绘制干扰线**/
-        for (var k = 0; k < 3; k++) {
+        for (var k = 0; k < 2; k++) {
             ctx.strokeStyle = this.randomColor(40, 180);
             ctx.beginPath();
             ctx.moveTo(this.randomNum(0, this.options.width), this.randomNum(0, this.options.height));
@@ -97,7 +97,7 @@ class GVerify {
             ctx.stroke();
         }
         /**绘制干扰点**/
-        for (var j = 0; j < this.options.width / 4; j++) {
+        for (var j = 0; j < this.options.width / 8; j++) {
             ctx.fillStyle = this.randomColor(0, 255);
             ctx.beginPath();
             ctx.arc(this.randomNum(0, this.options.width), this.randomNum(0, this.options.height), 1, 0, 2 * Math.PI);
